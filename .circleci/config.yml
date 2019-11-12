@@ -3,6 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
+
+    working_directory: ~/udaraw
+
     steps:
       - checkout
       - add_ssh_keys
