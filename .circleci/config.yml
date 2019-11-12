@@ -5,6 +5,9 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - deploy-job:
+      - deploy: # Build
+          name: Deploy
           steps:
-            - add_ssh_keys
+            deploy-job:
+              steps:
+                - add_ssh_keys
