@@ -29,10 +29,8 @@ jobs:
   deploy:
     machine:
       enabled: true
-    name: Deploy
     working_directory: ~/udaraw.com
     steps:
-      - checkout
       - run:
           name: Deploy master
           command: |
