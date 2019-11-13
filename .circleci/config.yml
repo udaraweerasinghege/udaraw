@@ -27,6 +27,8 @@ jobs:
           command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
 
   deploy:
+    machine:
+      enabled: true
     name: Deploy
     working_directory: ~/udaraw.com
     steps:
