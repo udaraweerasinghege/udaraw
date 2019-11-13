@@ -9,10 +9,26 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Build
+          command: yarn build
+      - run:
+          name: Add fingerprint to known hosts
           command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
       - deploy:
           name: Deploy
           working_directory: ~/udaraw.com
           command: |
-            scp -r ~/udaraw.com "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
+            scp -r ~/udaraw.com/dist/* "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
