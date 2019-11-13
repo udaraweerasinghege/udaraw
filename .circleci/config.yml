@@ -36,8 +36,7 @@ jobs:
     working_directory: ~/udaraw.com
     steps:
       - attach_workspace:
-        # Must be absolute path or relative path from working_directory
-        at: ~/udaraw.com
+          at: ~/udaraw.com
       - run:
           name: Deploy master
           command: |
