@@ -8,7 +8,9 @@ jobs:
 
     steps:
       - checkout
-      - add_ssh_keys
+      - add_ssh_keys:
+        - fingerprints:
+          - "SHA256:H/wROZlHF5MbQcMTG82bqa9tThTnp+EbIRYNyXdj6+I"
       - deploy: # Build
           name: Deploy
           working_directory: ~/udaraw.com
