@@ -4,11 +4,13 @@ jobs:
     docker:
       - image: circleci/node:10
 
-    working_directory: ~/udaraw
+    working_directory: ~/udaraw.com
 
     steps:
       - checkout
       - add_ssh_keys
       - deploy: # Build
           name: Deploy
-          command: echo 'h'
+          working_directory: ~/udaraw.com
+          command: |
+            scp -r ~/udaraw "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
