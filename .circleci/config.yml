@@ -29,8 +29,12 @@ jobs:
   deploy:
     name: Deploy
     working_directory: ~/udaraw.com
-    command: |
-      scp -r ~/udaraw.com/dist/* "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
+    steps:
+      - checkout
+      - run:
+          name: Deploy master
+          command: |
+            scp -r ~/udaraw.com/dist/* "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
 
 workflows:
   version: 2
@@ -40,6 +44,3 @@ workflows:
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only: master
