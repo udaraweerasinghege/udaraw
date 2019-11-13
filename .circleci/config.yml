@@ -25,6 +25,10 @@ jobs:
       - run:
           name: Add fingerprint to known hosts
           command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist/
 
   deploy:
     machine:
