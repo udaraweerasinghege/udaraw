@@ -35,14 +35,14 @@ jobs:
         scp -r ~/udaraw.com/dist/* "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
 
 
-  workflows:
-    version: 2
-    build-and-deploy:
-      jobs:
-        - build
-        - deploy:
-            requires:
-              - build
-            filters:
-              branches:
-                only: master
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
