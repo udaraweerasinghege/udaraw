@@ -30,5 +30,9 @@ jobs:
       - deploy:
           name: Deploy
           working_directory: ~/udaraw.com
+          filters:
+            branches:
+              only:
+                - master
           command: |
             scp -r ~/udaraw.com/dist/* "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
