@@ -8,10 +8,10 @@ jobs:
 
     steps:
       - checkout
-      - add_ssh_keys:
-        - fingerprints:
-          - "SHA256:H/wROZlHF5MbQcMTG82bqa9tThTnp+EbIRYNyXdj6+I"
-      - deploy: # Build
+      - add_ssh_keys
+      - run:
+          command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+      - deploy:
           name: Deploy
           working_directory: ~/udaraw.com
           command: |
