@@ -3,9 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
-
     working_directory: ~/udaraw.com
-
     steps:
       - checkout
       - add_ssh_keys
@@ -28,12 +26,11 @@ jobs:
           name: Add fingerprint to known hosts
           command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
 
-    - deploy:
-      name: Deploy
-      working_directory: ~/udaraw.com
-      command: |
-        scp -r ~/udaraw.com/dist/* "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
-
+  deploy:
+    name: Deploy
+    working_directory: ~/udaraw.com
+    command: |
+      scp -r ~/udaraw.com/dist/* "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
 
 workflows:
   version: 2
