@@ -15,4 +15,4 @@ jobs:
           name: Deploy
           working_directory: ~/udaraw.com
           command: |
-            scp -r ~/udaraw "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
+            scp -r ~/udaraw.com "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
