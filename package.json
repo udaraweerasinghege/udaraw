@@ -1,0 +1,16 @@
+{
+  "name": "udaraw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:udaraweerasinghege/udaraw.git",
+  "author": "udara <udara.weera@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "cssnano": "^4.1.10",
+    "parcel-bundler": "^1.12.4"
+  },
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  }
+}

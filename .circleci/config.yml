@@ -3,21 +3,53 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
+    working_directory: ~/udaraw.com
     steps:
       - checkout
-      - restore_cache: # special step to restore the dependency cache
-          key: dependency-cache-{{ checksum "package.json" }}
+      - add_ssh_keys
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
-          name: Setup Dependencies
-          command: npm install
-      - save_cache: # special step to save the dependency cache
-          key: dependency-cache-{{ checksum "package.json" }}
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - ./node_modules
-      - run: # run lint
-          name: Lint
-          command: npm run lint
-
-      - run: # Build
+            - ~/.cache/yarn
+      - run:
           name: Build
-          command: npm run build:circle
+          command: yarn build
+      - run:
+          name: Add fingerprint to known hosts
+          command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+
+  deploy:
+    machine:
+      enabled: true
+    working_directory: ~/udaraw.com
+    steps:
+      - attach_workspace:
+          at: ~/udaraw.com
+      - run:
+          name: Deploy master
+          command: |
+            scp -r ~/udaraw.com/dist/* "$SSH_USER@$SSH_HOST:$SSH_DEPLOY_PATH"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
